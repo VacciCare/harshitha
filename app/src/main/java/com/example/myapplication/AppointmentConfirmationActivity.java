@@ -1,4 +1,4 @@
-        package com.example.myapplication;
+package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +20,7 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_appointment_confirmation);
 
         tv = findViewById(R.id.txtChild);
@@ -27,8 +28,10 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
         tv2 = findViewById(R.id.txtHospital);
         tv3 = findViewById(R.id.txtDate);
         tv4 = findViewById(R.id.txtTime);
+
         btn = findViewById(R.id.btnDone);
 
+        // Get appointment details from AppointmentActivity
         Intent intent = getIntent();
 
         String child = intent.getStringExtra("child");
@@ -37,25 +40,30 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
         String date = intent.getStringExtra("date");
         String time = intent.getStringExtra("time");
 
+        // Display details on confirmation screen
         tv.setText("Child: " + child);
         tv1.setText("Vaccine / Service: " + vaccine);
         tv2.setText("Hospital / Center: " + hospital);
         tv3.setText("Date: " + date);
         tv4.setText("Time: " + time);
 
+        // Go to Appointment Management
         btn.setOnClickListener(v -> {
 
-            Intent dashboardIntent =
-                    new Intent(
-                            AppointmentConfirmationActivity.this,
-                            AppointmentActivity.class
-                    );
-
-            dashboardIntent.addFlags(
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+            Intent managementIntent = new Intent(
+                    AppointmentConfirmationActivity.this,
+                    AppointmentManagementActivity.class
             );
 
-            startActivity(dashboardIntent);
+            // Send the SAME booked details
+            managementIntent.putExtra("child", child);
+            managementIntent.putExtra("vaccine", vaccine);
+            managementIntent.putExtra("hospital", hospital);
+            managementIntent.putExtra("date", date);
+            managementIntent.putExtra("time", time);
+
+            startActivity(managementIntent);
+
             finish();
         });
     }

@@ -1,5 +1,4 @@
 package com.example.myapplication;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -9,16 +8,18 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.Calendar;
-
 public class AppointmentActivity extends AppCompatActivity {
 
     Spinner spinnerChild, spinnerVaccine, spinnerHospital;
-    Button btnSelectDate, btnSelectTime, btnBookAppointment;
-    TextView txtSelectedDate, txtSelectedTime;
+
+    Button btnSelectDate;
+    Button btnSelectTime;
+    Button btnBookAppointment;
+
+    TextView txtSelectedDate;
+    TextView txtSelectedTime;
 
     String selectedDate = "";
     String selectedTime = "";
@@ -26,6 +27,7 @@ public class AppointmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_appointment);
 
         spinnerChild = findViewById(R.id.spinnerChild);
@@ -41,19 +43,30 @@ public class AppointmentActivity extends AppCompatActivity {
 
         setupSpinners();
 
-        btnSelectDate.setOnClickListener(v -> openDatePicker());
+        btnSelectDate.setOnClickListener(
+                v -> openDatePicker()
+        );
 
-        btnSelectTime.setOnClickListener(v -> openTimePicker());
+        btnSelectTime.setOnClickListener(
+                v -> openTimePicker()
+        );
 
-        btnBookAppointment.setOnClickListener(v -> bookAppointment());
+        btnBookAppointment.setOnClickListener(
+                v -> bookAppointment()
+        );
     }
+
+    // =========================================================
+    // SPINNERS
+    // =========================================================
 
     private void setupSpinners() {
 
         String[] children = {
                 "Select Child",
                 "Child 1",
-                "Child 2"
+                "Child 2",
+                "child3"
         };
 
         String[] vaccines = {
@@ -114,18 +127,29 @@ public class AppointmentActivity extends AppCompatActivity {
         spinnerHospital.setAdapter(hospitalAdapter);
     }
 
+    // =========================================================
+    // DATE PICKER
+    // =========================================================
+
     private void openDatePicker() {
 
         Calendar calendar = Calendar.getInstance();
 
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int year =
+                calendar.get(Calendar.YEAR);
+
+        int month =
+                calendar.get(Calendar.MONTH);
+
+        int day =
+                calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog =
                 new DatePickerDialog(
                         this,
-                        (view, selectedYear, selectedMonth, selectedDay) -> {
+
+                        (view, selectedYear,
+                         selectedMonth, selectedDay) -> {
 
                             selectedDate =
                                     selectedDay + "/" +
@@ -133,9 +157,11 @@ public class AppointmentActivity extends AppCompatActivity {
                                             selectedYear;
 
                             txtSelectedDate.setText(
-                                    "Selected Date: " + selectedDate
+                                    "Selected Date: " +
+                                            selectedDate
                             );
                         },
+
                         year,
                         month,
                         day
@@ -144,17 +170,27 @@ public class AppointmentActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    // =========================================================
+    // TIME PICKER
+    // =========================================================
+
     private void openTimePicker() {
 
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar =
+                Calendar.getInstance();
 
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+        int hour =
+                calendar.get(Calendar.HOUR_OF_DAY);
+
+        int minute =
+                calendar.get(Calendar.MINUTE);
 
         TimePickerDialog timePickerDialog =
                 new TimePickerDialog(
                         this,
-                        (view, selectedHour, selectedMinute) -> {
+
+                        (view, selectedHour,
+                         selectedMinute) -> {
 
                             String amPm;
 
@@ -164,7 +200,8 @@ public class AppointmentActivity extends AppCompatActivity {
                                 amPm = "AM";
                             }
 
-                            int displayHour = selectedHour % 12;
+                            int displayHour =
+                                    selectedHour % 12;
 
                             if (displayHour == 0) {
                                 displayHour = 12;
@@ -179,9 +216,11 @@ public class AppointmentActivity extends AppCompatActivity {
                                     );
 
                             txtSelectedTime.setText(
-                                    "Selected Time: " + selectedTime
+                                    "Selected Time: " +
+                                            selectedTime
                             );
                         },
+
                         hour,
                         minute,
                         false
@@ -190,50 +229,64 @@ public class AppointmentActivity extends AppCompatActivity {
         timePickerDialog.show();
     }
 
+    // =========================================================
+    // BOOK APPOINTMENT
+    // =========================================================
+
     private void bookAppointment() {
 
         if (spinnerChild.getSelectedItemPosition() == 0) {
+
             Toast.makeText(
                     this,
                     "Please select a child",
                     Toast.LENGTH_SHORT
             ).show();
+
             return;
         }
 
         if (spinnerVaccine.getSelectedItemPosition() == 0) {
+
             Toast.makeText(
                     this,
                     "Please select a vaccine or service",
                     Toast.LENGTH_SHORT
             ).show();
+
             return;
         }
 
         if (spinnerHospital.getSelectedItemPosition() == 0) {
+
             Toast.makeText(
                     this,
                     "Please select a hospital or center",
                     Toast.LENGTH_SHORT
             ).show();
+
             return;
         }
 
         if (selectedDate.isEmpty()) {
+
             Toast.makeText(
                     this,
                     "Please select a date",
                     Toast.LENGTH_SHORT
             ).show();
+
             return;
         }
 
         if (selectedTime.isEmpty()) {
+
             Toast.makeText(
                     this,
                     "Please select a time",
                     Toast.LENGTH_SHORT
             ).show();
+
             return;
         }
 
@@ -246,18 +299,85 @@ public class AppointmentActivity extends AppCompatActivity {
         String hospital =
                 spinnerHospital.getSelectedItem().toString();
 
+        // Send selected details to Confirmation screen
         Intent intent =
                 new Intent(
                         AppointmentActivity.this,
                         AppointmentConfirmationActivity.class
                 );
 
-        intent.putExtra("child", child);
-        intent.putExtra("vaccine", vaccine);
-        intent.putExtra("hospital", hospital);
-        intent.putExtra("date", selectedDate);
-        intent.putExtra("time", selectedTime);
+        intent.putExtra(
+                "child",
+                child
+        );
+
+        intent.putExtra(
+                "vaccine",
+                vaccine
+        );
+
+        intent.putExtra(
+                "hospital",
+                hospital
+        );
+
+        intent.putExtra(
+                "date",
+                selectedDate
+        );
+
+        intent.putExtra(
+                "time",
+                selectedTime
+        );
 
         startActivity(intent);
+    }
+
+    // =========================================================
+    // RESET BOOK APPOINTMENT SCREEN
+    // =========================================================
+
+    private void resetAppointmentForm() {
+
+        // Reset Child
+        spinnerChild.setSelection(0);
+
+        // Reset Vaccine
+        spinnerVaccine.setSelection(0);
+
+        // Reset Hospital
+        spinnerHospital.setSelection(0);
+
+        // Clear selected date
+        selectedDate = "";
+
+        txtSelectedDate.setText(
+                "Select Date"
+        );
+
+        // Clear selected time
+        selectedTime = "";
+
+        txtSelectedTime.setText(
+                "Select Time"
+        );
+    }
+
+    // =========================================================
+    // RESET WHEN SCREEN IS OPENED AGAIN
+    // =========================================================
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+
+        /*
+         * When the user returns to the Book Appointment
+         * screen, clear the previous selections.
+         */
+
+        resetAppointmentForm();
     }
 }

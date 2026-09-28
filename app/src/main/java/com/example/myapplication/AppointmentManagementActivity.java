@@ -36,11 +36,17 @@ public class AppointmentManagementActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_appointment_management);
 
-        recyclerAppointments = findViewById(R.id.recyclerAppointments);
-        recyclerHistory = findViewById(R.id.recyclerHistory);
+        recyclerAppointments =
+                findViewById(R.id.recyclerAppointments);
 
-        txtNoAppointments = findViewById(R.id.txtNoAppointments);
-        txtNoHistory = findViewById(R.id.txtNoHistory);
+        recyclerHistory =
+                findViewById(R.id.recyclerHistory);
+
+        txtNoAppointments =
+                findViewById(R.id.txtNoAppointments);
+
+        txtNoHistory =
+                findViewById(R.id.txtNoHistory);
 
         btnBackAppointmentManagement =
                 findViewById(R.id.btnBackAppointmentManagement);
@@ -50,7 +56,15 @@ public class AppointmentManagementActivity extends AppCompatActivity {
                 MODE_PRIVATE
         );
 
-        btnBackAppointmentManagement.setOnClickListener(v -> finish());
+        btnBackAppointmentManagement.setOnClickListener(
+                v -> finish()
+        );
+
+        /*
+         * Check whether a new appointment
+         * came from Confirmation screen.
+         */
+        saveNewAppointment();
 
         loadAllAppointments();
     }
@@ -64,116 +78,272 @@ public class AppointmentManagementActivity extends AppCompatActivity {
         }
     }
 
+    // =========================================================
+    // SAVE NEW APPOINTMENT
+    // =========================================================
+
+    private void saveNewAppointment() {
+
+        String child =
+                getIntent().getStringExtra("child");
+
+        String vaccine =
+                getIntent().getStringExtra("vaccine");
+
+        String hospital =
+                getIntent().getStringExtra("hospital");
+
+        String date =
+                getIntent().getStringExtra("date");
+
+        String time =
+                getIntent().getStringExtra("time");
+
+        /*
+         * If no new appointment came,
+         * don't save anything.
+         */
+        if (child == null ||
+                vaccine == null ||
+                hospital == null ||
+                date == null ||
+                time == null) {
+
+            return;
+        }
+
+        /*
+         * Create a unique ID for this appointment.
+         */
+        String appointmentId =
+                "VAC" + System.currentTimeMillis();
+
+        /*
+         * Store this appointment in SharedPreferences
+         * using its unique ID.
+         */
+        SharedPreferences.Editor editor =
+                preferences.edit();
+
+        editor.putString(
+                appointmentId + "_child",
+                child
+        );
+
+        editor.putString(
+                appointmentId + "_vaccine",
+                vaccine
+        );
+
+        editor.putString(
+                appointmentId + "_hospital",
+                hospital
+        );
+
+        editor.putString(
+                appointmentId + "_date",
+                date
+        );
+
+        editor.putString(
+                appointmentId + "_time",
+                time
+        );
+
+        editor.putString(
+                appointmentId + "_status",
+                "Confirmed"
+        );
+
+        /*
+         * Add this appointment ID to the list
+         * of saved appointment IDs.
+         */
+        String appointmentIds =
+                preferences.getString(
+                        "appointment_ids",
+                        ""
+                );
+
+        if (appointmentIds.isEmpty()) {
+
+            appointmentIds = appointmentId;
+
+        } else {
+
+            appointmentIds =
+                    appointmentIds + "," + appointmentId;
+        }
+
+        editor.putString(
+                "appointment_ids",
+                appointmentIds
+        );
+
+        editor.apply();
+
+        /*
+         * Clear Intent extras so the same appointment
+         * is not saved again when Activity resumes.
+         */
+        getIntent().removeExtra("child");
+        getIntent().removeExtra("vaccine");
+        getIntent().removeExtra("hospital");
+        getIntent().removeExtra("date");
+        getIntent().removeExtra("time");
+    }
+
+    // =========================================================
+    // LOAD ALL APPOINTMENTS
+    // =========================================================
+
     private void loadAllAppointments() {
 
-        appointmentList = new ArrayList<>();
-        historyList = new ArrayList<>();
+        appointmentList =
+                new ArrayList<>();
+
+        historyList =
+                new ArrayList<>();
 
         loadAppointments();
 
         setupUpcomingAppointments();
+
         setupAppointmentHistory();
     }
 
+    // =========================================================
+    // LOAD SAVED APPOINTMENTS
+    // =========================================================
+
     private void loadAppointments() {
 
+        String appointmentIds =
+                preferences.getString(
+                        "appointment_ids",
+                        ""
+                );
+
         /*
-         * Temporary frontend appointments.
-         * Later these will come from Raju's API.
+         * No appointments booked yet.
          */
+        if (appointmentIds.isEmpty()) {
+            return;
+        }
 
-        addAppointment(
-                "VAC001",
-                "Child 1",
-                "BCG Vaccine",
-                "VacciCare Health Center",
-                "28/09/2026",
-                "10:30 AM",
-                "Confirmed"
-        );
+        String[] ids =
+                appointmentIds.split(",");
 
-        addAppointment(
-                "VAC002",
-                "Child 2",
-                "Polio Vaccine",
-                "City Children Hospital",
-                "30/09/2026",
-                "11:00 AM",
-                "Pending"
-        );
-    }
+        for (String id : ids) {
 
-    private void addAppointment(
-            String id,
-            String child,
-            String vaccine,
-            String hospital,
-            String date,
-            String time,
-            String status
-    ) {
+            String child =
+                    preferences.getString(
+                            id + "_child",
+                            ""
+                    );
 
-        boolean cancelled = preferences.getBoolean(
-                id + "_cancelled",
-                false
-        );
+            String vaccine =
+                    preferences.getString(
+                            id + "_vaccine",
+                            ""
+                    );
 
-        String savedDate = preferences.getString(
-                id + "_date",
-                date
-        );
+            String hospital =
+                    preferences.getString(
+                            id + "_hospital",
+                            ""
+                    );
 
-        String savedTime = preferences.getString(
-                id + "_time",
-                time
-        );
+            String date =
+                    preferences.getString(
+                            id + "_date",
+                            ""
+                    );
 
-        String savedStatus = preferences.getString(
-                id + "_status",
-                status
-        );
+            String time =
+                    preferences.getString(
+                            id + "_time",
+                            ""
+                    );
 
-        AppointmentModel appointment = new AppointmentModel(
-                id,
-                child,
-                vaccine,
-                hospital,
-                savedDate,
-                savedTime,
-                savedStatus
-        );
+            String status =
+                    preferences.getString(
+                            id + "_status",
+                            "Confirmed"
+                    );
 
-        if (cancelled) {
+            if (child.isEmpty()) {
+                continue;
+            }
 
-            historyList.add(
-                    new AppointmentModel(
-                            id,
-                            child,
-                            vaccine,
-                            hospital,
-                            savedDate,
-                            savedTime,
-                            "Cancelled"
-                    )
-            );
+            boolean cancelled =
+                    preferences.getBoolean(
+                            id + "_cancelled",
+                            false
+                    );
 
-        } else {
+            /*
+             * Cancelled appointment goes to History.
+             */
+            if (cancelled) {
 
-            appointmentList.add(appointment);
+                historyList.add(
+                        new AppointmentModel(
+                                id,
+                                child,
+                                vaccine,
+                                hospital,
+                                date,
+                                time,
+                                "Cancelled"
+                        )
+                );
+
+            } else {
+
+                /*
+                 * Active appointment goes to Upcoming.
+                 */
+                appointmentList.add(
+                        new AppointmentModel(
+                                id,
+                                child,
+                                vaccine,
+                                hospital,
+                                date,
+                                time,
+                                status
+                        )
+                );
+            }
         }
     }
+
+    // =========================================================
+    // UPCOMING APPOINTMENTS
+    // =========================================================
 
     private void setupUpcomingAppointments() {
 
         if (appointmentList.isEmpty()) {
 
-            txtNoAppointments.setVisibility(View.VISIBLE);
-            recyclerAppointments.setVisibility(View.GONE);
+            txtNoAppointments.setVisibility(
+                    View.VISIBLE
+            );
+
+            recyclerAppointments.setVisibility(
+                    View.GONE
+            );
 
         } else {
 
-            txtNoAppointments.setVisibility(View.GONE);
-            recyclerAppointments.setVisibility(View.VISIBLE);
+            txtNoAppointments.setVisibility(
+                    View.GONE
+            );
+
+            recyclerAppointments.setVisibility(
+                    View.VISIBLE
+            );
 
             upcomingAdapter =
                     new AppointmentManagementAdapter(
@@ -185,21 +355,37 @@ public class AppointmentManagementActivity extends AppCompatActivity {
                     new LinearLayoutManager(this)
             );
 
-            recyclerAppointments.setAdapter(upcomingAdapter);
+            recyclerAppointments.setAdapter(
+                    upcomingAdapter
+            );
         }
     }
+
+    // =========================================================
+    // APPOINTMENT HISTORY
+    // =========================================================
 
     private void setupAppointmentHistory() {
 
         if (historyList.isEmpty()) {
 
-            txtNoHistory.setVisibility(View.VISIBLE);
-            recyclerHistory.setVisibility(View.GONE);
+            txtNoHistory.setVisibility(
+                    View.VISIBLE
+            );
+
+            recyclerHistory.setVisibility(
+                    View.GONE
+            );
 
         } else {
 
-            txtNoHistory.setVisibility(View.GONE);
-            recyclerHistory.setVisibility(View.VISIBLE);
+            txtNoHistory.setVisibility(
+                    View.GONE
+            );
+
+            recyclerHistory.setVisibility(
+                    View.VISIBLE
+            );
 
             historyAdapter =
                     new AppointmentManagementAdapter(
@@ -211,7 +397,9 @@ public class AppointmentManagementActivity extends AppCompatActivity {
                     new LinearLayoutManager(this)
             );
 
-            recyclerHistory.setAdapter(historyAdapter);
+            recyclerHistory.setAdapter(
+                    historyAdapter
+            );
         }
     }
 }

@@ -1,73 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:fillViewport="true">
 
-    <Button
-        android:id="@+id/btnBackAppointmentManagement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:layout_marginBottom="10dp" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My Appointments"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="20dp" />
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Upcoming Appointments"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp" />
+        <!-- Back Button -->
+        <Button
+            android:id="@+id/btnBackAppointmentManagement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginBottom="10dp" />
 
-    <TextView
-        android:id="@+id/txtNoAppointments"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="No upcoming appointments"
-        android:textSize="17sp"
-        android:gravity="center"
-        android:visibility="gone"
-        android:layout_marginBottom="15dp" />
+        <!-- Page Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Appointments"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="20dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerAppointments"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        <!-- Upcoming Appointments Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upcoming Appointments"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Appointment History"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp" />
+        <!-- No Upcoming Appointments -->
+        <TextView
+            android:id="@+id/txtNoAppointments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No upcoming appointments"
+            android:textSize="17sp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="15dp" />
 
-    <TextView
-        android:id="@+id/txtNoHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="No appointment history"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:visibility="gone" />
+        <!-- Upcoming Appointments -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerAppointments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerHistory"
-        android:layout_width="match_parent"
-        android:layout_height="180dp" />
+        <!-- Appointment History Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Appointment History"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp" />
 
-</LinearLayout>
+        <!-- No History -->
+        <TextView
+            android:id="@+id/txtNoHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No appointment history"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Appointment History -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
