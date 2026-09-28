@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <Button
+            android:id="@+id/btnBackEditAppointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_marginBottom="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Modify Appointment"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="25dp" />
+
+        <TextView
+            android:id="@+id/txtEditAppointmentId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Appointment ID:"
+            android:textSize="16sp"
+            android:layout_marginBottom="15dp" />
+
+        <TextView
+            android:id="@+id/txtEditChild"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Child:"
+            android:textSize="16sp"
+            android:layout_marginBottom="15dp" />
+
+        <TextView
+            android:id="@+id/txtEditVaccine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vaccine:"
+            android:textSize="16sp"
+            android:layout_marginBottom="15dp" />
+
+        <TextView
+            android:id="@+id/txtEditHospital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hospital:"
+            android:textSize="16sp"
+            android:layout_marginBottom="25dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change Date"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnEditDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select New Date"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/txtEditDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Date"
+            android:gravity="center"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change Time"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnEditTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select New Time"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/txtEditTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Time"
+            android:gravity="center"
+            android:layout_marginBottom="25dp" />
+
+        <Button
+            android:id="@+id/btnSaveChanges"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Save Changes" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Appointment Confirmed"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="25dp" />
+
+        <TextView
+            android:id="@+id/txtConfirmationMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your appointment has been booked successfully."
+            android:textSize="17sp"
+            android:gravity="center"
+            android:layout_marginBottom="30dp" />
+
+        <TextView
+            android:id="@+id/txtChild"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Child:"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtVaccine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vaccine / Service:"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtHospital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hospital:"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date:"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Time:"
+            android:textSize="16sp"
+            android:layout_marginBottom="30dp" />
+
+        <Button
+            android:id="@+id/btnDone"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:text="Done"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+</ScrollView>
